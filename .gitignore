@@ -1,3 +1,4 @@
-BackupAndEncryptionTool/.vs/*
-BackupAndEncryptionTool/bin/*
-BackupAndEncryptionTool/obj/*
+*.vs/*
+*/.vs/*
+*/bin/*
+*/obj/*
