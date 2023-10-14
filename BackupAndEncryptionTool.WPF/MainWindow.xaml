@@ -25,9 +25,6 @@
 
         <ListBox Name="sourcePaths"
                  Grid.Row="0" Grid.Column="1">
-            <ListBoxItem>SomeSourcePath1</ListBoxItem>
-            <ListBoxItem>SomeSourcePath2</ListBoxItem>
-            <ListBoxItem>SomeSourcePath3</ListBoxItem>
         </ListBox>
 
 
@@ -38,9 +35,6 @@
         </Button>
         <ListBox Name="destinationPaths"
                  Grid.Row="1" Grid.Column="1">
-            <ListBoxItem>SomeDestinationPath1</ListBoxItem>
-            <ListBoxItem>SomeDestinationPath2</ListBoxItem>
-            <ListBoxItem>SomeDestinationPath3</ListBoxItem>
         </ListBox>
 
         <Grid 
