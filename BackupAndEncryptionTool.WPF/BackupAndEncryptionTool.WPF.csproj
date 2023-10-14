@@ -7,8 +7,4 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\BackupAndEncryptionTool.Services\BackupAndEncryptionTool.Services.csproj" />
-  </ItemGroup>
-
 </Project>
