@@ -5,6 +5,10 @@ VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackupAndEncryptionTool.WPF", "BackupAndEncryptionTool.WPF\BackupAndEncryptionTool.WPF.csproj", "{42B6A958-9B77-4ED8-925D-CA09D444A19E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackupAndEncryptionTool.Services", "BackupAndEncryptionTool.Services\BackupAndEncryptionTool.Services.csproj", "{9F0F6709-B069-481C-AD71-10229F647EAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackupAndEncryptionTool.Types", "BackupAndEncryptionTool.Types\BackupAndEncryptionTool.Types.csproj", "{A426C577-7A5D-415F-9AF1-DBA15BCD1719}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{42B6A958-9B77-4ED8-925D-CA09D444A19E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42B6A958-9B77-4ED8-925D-CA09D444A19E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42B6A958-9B77-4ED8-925D-CA09D444A19E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F0F6709-B069-481C-AD71-10229F647EAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F0F6709-B069-481C-AD71-10229F647EAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F0F6709-B069-481C-AD71-10229F647EAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F0F6709-B069-481C-AD71-10229F647EAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A426C577-7A5D-415F-9AF1-DBA15BCD1719}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A426C577-7A5D-415F-9AF1-DBA15BCD1719}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A426C577-7A5D-415F-9AF1-DBA15BCD1719}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A426C577-7A5D-415F-9AF1-DBA15BCD1719}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
