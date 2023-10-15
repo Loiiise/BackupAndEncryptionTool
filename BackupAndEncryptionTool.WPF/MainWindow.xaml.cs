@@ -28,9 +28,11 @@ namespace BackupAndEncryptionTool
         }
 
         public void AddSourcePath(object sender, RoutedEventArgs e) => TryAddFolderToCollectionAndSave(sourcePaths.Items);
+        public void RemoveSourcePath(object sender, RoutedEventArgs e) => TryRemoveFolderFromCollectionAndSave(sourcePaths.Items, sourcePaths.SelectedIndex);
         public void AddDestinationPath(object sender, RoutedEventArgs e) => TryAddFolderToCollectionAndSave(destinationPaths.Items);
+        public void RemoveDestinationPath(object sender, RoutedEventArgs e) => TryRemoveFolderFromCollectionAndSave(destinationPaths.Items, destinationPaths.SelectedIndex);
 
-        public void PerformBackup(object sender, RoutedEventArgs e)
+        public void PerformBackup(object sender, RoutedEventArgs e) 
         {
             MessageBox.Show("Back me up babyy");            
         }
@@ -41,13 +43,25 @@ namespace BackupAndEncryptionTool
             {               
                 collection.Add(newPath);
 
-                var configuration = new Configuration(sourcePaths.ToStringArray(), destinationPaths.ToStringArray());
-                _configurationFileService.Save(_configurationPath, configuration);
+                SaveCurrentConfiguration();
             }
             else
             {
+                // todo: Occurs when dialog is closed without selecting a file, which is fine. Maybe fix at some point.
                 MessageBox.Show(exception.Message);
             }
+        }
+
+        private void TryRemoveFolderFromCollectionAndSave(ItemCollection collection, int indexToRemove)
+        {
+            collection.RemoveAt(indexToRemove);
+            SaveCurrentConfiguration();
+        }
+
+        private void SaveCurrentConfiguration()
+        {
+            var configuration = new Configuration(sourcePaths.ToStringArray(), destinationPaths.ToStringArray());
+            _configurationFileService.Save(_configurationPath, configuration);
         }
 
         private void SetConfiguration()
@@ -61,7 +75,7 @@ namespace BackupAndEncryptionTool
 
             foreach (var destinationItem in configuration.DestinationPaths)
             {
-                sourcePaths.Items.Add(destinationItem);
+                destinationPaths.Items.Add(destinationItem);
             }
         }
 

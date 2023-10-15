@@ -9,6 +9,9 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -22,23 +25,34 @@
                 Margin="10" VerticalAlignment="Top">
             Add source path
         </Button>
-
+        <Button Click="RemoveSourcePath" 
+                Grid.Row="1" Grid.Column="0"
+                Margin="10" VerticalAlignment="Top">
+            Remove source path
+        </Button>
         <ListBox Name="sourcePaths"
-                 Grid.Row="0" Grid.Column="1">
+                 Grid.Row="0" Grid.Column="1"
+                 Grid.RowSpan="2">
         </ListBox>
 
 
         <Button Click="AddDestinationPath" 
-                Grid.Row="1" Grid.Column="0" 
+                Grid.Row="2" Grid.Column="0" 
                 Margin="10" VerticalAlignment="Top">
             Add destination path
         </Button>
+        <Button Click="RemoveDestinationPath" 
+                Grid.Row="3" Grid.Column="0" 
+                Margin="10" VerticalAlignment="Top">
+            Remove destination path
+        </Button>
         <ListBox Name="destinationPaths"
-                 Grid.Row="1" Grid.Column="1">
+                 Grid.Row="2" Grid.Column="1"
+                 Grid.RowSpan="2">
         </ListBox>
 
         <Grid 
-            Grid.Row="2"
+            Grid.Row="4"
             Grid.Column="0">
             <Button Click="PerformBackup" Width="100" Height="25" Content="Backup"/>
         </Grid>
