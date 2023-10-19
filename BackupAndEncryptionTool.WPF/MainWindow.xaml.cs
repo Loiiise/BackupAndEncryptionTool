@@ -21,6 +21,7 @@ namespace BackupAndEncryptionTool
 
             // todo: make proper services at some point, see #4
             _configurationFileService = new ConfigurationFileService();
+            _fileExportService = new FileExportService();
             _fileSystemService = new FileDialogServiceWPF();
 
             InitializeComponent();
@@ -34,6 +35,9 @@ namespace BackupAndEncryptionTool
 
         public void PerformBackup(object sender, RoutedEventArgs e) 
         {
+            var configuration = GenerateCurrentConfiguration();
+            _fileExportService.Export(configuration);
+
             MessageBox.Show("Back me up babyy");            
         }
 
@@ -58,9 +62,11 @@ namespace BackupAndEncryptionTool
             SaveCurrentConfiguration();
         }
 
+        private Configuration GenerateCurrentConfiguration() => new Configuration(sourcePaths.ToStringArray(), destinationPaths.ToStringArray());
+
         private void SaveCurrentConfiguration()
         {
-            var configuration = new Configuration(sourcePaths.ToStringArray(), destinationPaths.ToStringArray());
+            var configuration = GenerateCurrentConfiguration();
             _configurationFileService.Save(_configurationPath, configuration);
         }
 
@@ -68,12 +74,12 @@ namespace BackupAndEncryptionTool
         {
             var configuration = _configurationFileService.Load(_configurationPath);
 
-            foreach (var sourceItem in configuration.SourcePaths)
+            foreach (var sourceItem in configuration.SourceDirectoryPaths)
             {
                 sourcePaths.Items.Add(sourceItem);
             }
 
-            foreach (var destinationItem in configuration.DestinationPaths)
+            foreach (var destinationItem in configuration.DestinationDirectoryPaths)
             {
                 destinationPaths.Items.Add(destinationItem);
             }
@@ -81,6 +87,7 @@ namespace BackupAndEncryptionTool
 
         private string _configurationPath;
         private IConfigurationFileService _configurationFileService;
+        private IFileExportService _fileExportService;
         private IFileDialogServiceWPF _fileSystemService;
     }
 }
