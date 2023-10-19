@@ -6,14 +6,14 @@ public class Configuration
     // Required for json parsing
     public Configuration() { }
 
-    public Configuration(string[] sourcePath, string[] destinationPaths)
+    public Configuration(string[] sourceDirectoryPath, string[] destinationDirectoryPaths)
     {
-        SourcePaths = sourcePath;
-        DestinationPaths = destinationPaths;
+        SourceDirectoryPaths = sourceDirectoryPath;
+        DestinationDirectoryPaths = destinationDirectoryPaths;
     }
 
     // todo: fix in #10
-    public string Name { get; init; } = DateTime.Now.ToString("yyyy-MM-dd-HH:mm") + "Dummy";
-    public string[] SourcePaths { get; init; } 
-    public string[] DestinationPaths { get; init; }
+    public string Name { get; init; } = DateTime.Now.ToString("yyyyMMddHHmm") + "Dummy";
+    public string[] SourceDirectoryPaths { get; init; } 
+    public string[] DestinationDirectoryPaths { get; init; }
 }
