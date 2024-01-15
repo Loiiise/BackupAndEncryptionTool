@@ -45,9 +45,15 @@ namespace BackupAndEncryptionTool
 
         private void DecryptBackedupFile(object sender, RoutedEventArgs e)
         {
-            // todo: get actual paths
-            var configuration = GenerateCurrentConfiguration();
-            var encryptedFilePath = configuration.DestinationDirectoryPaths.First() + "\\202401151845Dummy.BETArchive";
+            // Get file to decrypt
+            if (!_fileSystemService.TryGetFilePathFromUser(out var encryptedFilePath, out var exception))
+            {
+                // todo: Occurs when dialog is closed without selecting a file, which is fine. Maybe fix at some point.
+                MessageBox.Show(exception.Message);
+                return;
+            }
+
+            // todo: works for now, proper selecting of files in #19
             var decryptFilePath = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
                 _applicationName,
