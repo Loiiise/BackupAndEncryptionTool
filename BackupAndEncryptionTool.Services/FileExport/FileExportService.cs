@@ -5,6 +5,11 @@ namespace BackupAndEncryptionTool.Services;
 
 public class FileExportService : IFileExportService
 {
+    public FileExportService(IFileEncryptionService fileEncryptionService)
+    {
+        _fileEncryptionService = fileEncryptionService;
+    }
+
     public void Export(Configuration configuration)
     {
         if (!configuration.SourceDirectoryPaths.Any() || 
@@ -15,13 +20,34 @@ public class FileExportService : IFileExportService
             return;
         }
 
-        var pathInitialZipArchive = Path.Combine(configuration.DestinationDirectoryPaths.First(), $"{configuration.Name}.{FileExtensions.TemporaryArchive}");
+        // Zip source folders to temporary file
+        var pathUnencryptedTemporaryZipArchive = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "LoiiiseBackupAndEncryptionTool",
+                $"{configuration.Name}.{FileExtensions.TemporaryArchive}");
+        ZipTo(pathUnencryptedTemporaryZipArchive, configuration.SourceDirectoryPaths);
 
-        using (var initialArchiveStream = new FileStream(pathInitialZipArchive, FileMode.Create))
+        // Encrypt temporary file to first location
+        var destinationFileName = $"{configuration.Name}.{FileExtensions.Archive}";
+        var firstDestinationPath = Path.Combine(configuration.DestinationDirectoryPaths.First(), destinationFileName);
+        _fileEncryptionService.EncryptFile(pathUnencryptedTemporaryZipArchive, firstDestinationPath);
+
+        // Distribute encrypted file
+        foreach (var otherDestinationDirectory in configuration.DestinationDirectoryPaths.Skip(1))
+        {
+            var otherDestinationPath = Path.Combine(otherDestinationDirectory, destinationFileName);
+            File.Copy(firstDestinationPath, otherDestinationPath);
+        }        
+    }
+
+
+    private void ZipTo(string destinationPath, string[] sourceDirectoryPaths)
+    {
+        using (var initialArchiveStream = new FileStream(destinationPath, FileMode.Create))
         {
             using (var initialArchive = new ZipArchive(initialArchiveStream, ZipArchiveMode.Update))
             {
-                foreach (var sourceDirectoryPath in configuration.SourceDirectoryPaths.Distinct())
+                foreach (var sourceDirectoryPath in sourceDirectoryPaths.Distinct())
                 {
                     var parentOrSourceDirectory = Directory.GetParent(sourceDirectoryPath) is DirectoryInfo directoryInfo ?
                         directoryInfo.FullName :
@@ -35,13 +61,7 @@ public class FileExportService : IFileExportService
                 }
             }
         }
-
-        foreach (var remainingDestinationPath in configuration.DestinationDirectoryPaths.Skip(1))
-        {
-            File.Copy(pathInitialZipArchive, remainingDestinationPath);
-        }        
     }
-
 
     private IEnumerable<string> GetAllFilePathsInDirectory(string directoryPath)
     {
@@ -57,4 +77,6 @@ public class FileExportService : IFileExportService
             yield return fileInSubDirectory;
         }
     }
+
+    private IFileEncryptionService _fileEncryptionService;
 }

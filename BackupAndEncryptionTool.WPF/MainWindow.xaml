@@ -56,6 +56,12 @@
             Grid.Column="0">
             <Button Click="PerformBackup" Width="100" Height="25" Content="Backup"/>
         </Grid>
+
+        <Grid 
+            Grid.Row="4"
+            Grid.Column="1">
+            <Button Click="DecryptBackedupFile" Width="100" Height="25" Content="Decrypt"/>
+        </Grid>
     </Grid>
 
 </Window>

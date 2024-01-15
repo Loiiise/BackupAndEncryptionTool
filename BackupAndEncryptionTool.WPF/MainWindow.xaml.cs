@@ -4,6 +4,7 @@ using BackupAndEncryptionTool.WPF.Extensions;
 using BackupAndEncryptionTool.WPF.Services;
 using System;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -16,12 +17,13 @@ namespace BackupAndEncryptionTool
             // todo: make less static. See #10
             _configurationPath = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                "LoiiiseBackupAndEncryptionTool",
+                _applicationName,
                 $"configuration.{FileExtensions.Configuration}");
 
             // todo: make proper services at some point, see #4
             _configurationFileService = new ConfigurationFileService();
-            _fileExportService = new FileExportService();
+            _fileEncryptionService = new FileEncryptionService();
+            _fileExportService = new FileExportService(_fileEncryptionService);
             _fileSystemService = new FileDialogServiceWPF();
 
             InitializeComponent();
@@ -39,6 +41,21 @@ namespace BackupAndEncryptionTool
             _fileExportService.Export(configuration);
 
             MessageBox.Show("Back me up babyy");            
+        }
+
+        private void DecryptBackedupFile(object sender, RoutedEventArgs e)
+        {
+            // todo: get actual paths
+            var configuration = GenerateCurrentConfiguration();
+            var encryptedFilePath = configuration.DestinationDirectoryPaths.First() + "\\202401151845Dummy.BETArchive";
+            var decryptFilePath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                _applicationName,
+                $"dummyDecryptedFile.{FileExtensions.Zip}");
+
+            _fileEncryptionService.DecryptFile(encryptedFilePath, decryptFilePath);
+
+            MessageBox.Show("Undo that backup babyy");
         }
 
         private void TryAddFolderToCollectionAndSave(ItemCollection collection)
@@ -87,7 +104,11 @@ namespace BackupAndEncryptionTool
 
         private string _configurationPath;
         private IConfigurationFileService _configurationFileService;
+        private IFileEncryptionService _fileEncryptionService;
         private IFileExportService _fileExportService;
         private IFileDialogServiceWPF _fileSystemService;
+
+        // todo: move
+        private const string _applicationName = "LoiiiseBackupAndEncryptionTool";
     }
 }
